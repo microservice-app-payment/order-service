@@ -1,4 +1,4 @@
-package com.vn.exception;
+package com.vn.external.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
