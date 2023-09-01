@@ -16,7 +16,7 @@ public interface PaymentService {
         @RequestBody PaymentRequest paymentRequest
     );
 
-    default void fallback(Exception e){
+    default ResponseEntity<Long> fallback(Exception e){
         throw new CustomException(
                 "Payment Service is not available",
                 "UNAVAILABLE",
