@@ -2,7 +2,7 @@
   "paymentId": 1,
   "status": "SUCCESS",
   "paymentMode": "CASH",
-  "amount": 50,
-  "paymentDate": "2023-09-02T9:02:03.831822Z",
+  "amount": 500,
+  "paymentDate": "2022-03-20T10:06:10.060802Z",
   "orderId": 1
 }

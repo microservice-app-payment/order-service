@@ -12,7 +12,6 @@ import com.vn.model.PaymentMode;
 import com.vn.repository.OrderRepository;
 import com.vn.service.OrderService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,15 +28,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Optional;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static java.nio.charset.Charset.defaultCharset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.util.StreamUtils.copyToString;
 
-@SpringBootTest("{server.port=0}")
+@SpringBootTest("server.port=0")
 @EnableConfigurationProperties
 @AutoConfigureMockMvc
 @ContextConfiguration(classes = {OrderServiceConfig.class})
@@ -93,7 +92,8 @@ public class OrderControllerTest {
                                         OrderControllerTest.class
                                                 .getClassLoader()
                                                 .getResourceAsStream("mock/GetPayment.json"),
-                                        Charset.defaultCharset())
+                                        defaultCharset()
+                                )
                         )));
     }
 
@@ -110,28 +110,29 @@ public class OrderControllerTest {
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .withBody(copyToString(
-                                OrderControllerTest.class
-                                        .getClassLoader()
-                                        .getResourceAsStream("mock/GetProduct.json"),
-                                Charset.defaultCharset()
-                        ))));
+                        .withBody(
+                                copyToString(
+                                    OrderControllerTest.class
+                                            .getClassLoader()
+                                            .getResourceAsStream("mock/GetProduct.json"),
+                                    defaultCharset()
+                                )
+                        )));
     }
 
-    @DisplayName("Place Order - Success Scenario")
     @Test
     public void test_WhenPlaceOrder_DoPayment_Success() throws Exception {
         // Place Order
         OrderRequest orderRequest = getMockOrderRequest();
         MvcResult result
                 = mockMvc.perform(MockMvcRequestBuilders.post("/order/placeOrder")
-                        .with(SecurityMockMvcRequestPostProcessors.jwt().authorities(new SimpleGrantedAuthority("Customer")))
+                        .with(jwt().authorities(new SimpleGrantedAuthority("Customer")))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(orderRequest))
                 ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        // Get Order by Order Id from Db and check\
+        // Get Order by Order Id from Db and check
         String orderId = result.getResponse().getContentAsString();
 
         Optional<Order> order = orderRepository.findById(Long.valueOf(orderId));
@@ -139,10 +140,10 @@ public class OrderControllerTest {
 
         // Check Output
         Order o = order.get();
-        assertEquals(Long.parseLong(orderId),o.getOrderId());
-        assertEquals("PLACED",o.getOrderStatus());
-        assertEquals(orderRequest.getTotalAmount(),o.getAmount());
-        assertEquals(orderRequest.getQuantity(),o.getQuantity());
+        assertEquals(Long.parseLong(orderId), o.getOrderId());
+        assertEquals("PLACED", o.getOrderStatus());
+        assertEquals(orderRequest.getTotalAmount(), o.getAmount());
+        assertEquals(orderRequest.getQuantity(), o.getQuantity());
     }
 
     private OrderRequest getMockOrderRequest() {

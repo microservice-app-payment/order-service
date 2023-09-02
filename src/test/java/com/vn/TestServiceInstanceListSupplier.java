@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestServiceInstanceListSupplier implements ServiceInstanceListSupplier {
+
     @Override
     public String getServiceId() {
         return null;
@@ -18,7 +19,6 @@ public class TestServiceInstanceListSupplier implements ServiceInstanceListSuppl
     public Flux<List<ServiceInstance>> get() {
         List<ServiceInstance> result
                 = new ArrayList<>();
-
         result.add(new DefaultServiceInstance(
                 "payment-service",
                 "payment-service",
