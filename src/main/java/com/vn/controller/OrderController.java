@@ -20,7 +20,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @PreAuthorize("hasAnyAuthority('Cutomer')")
+    @PreAuthorize("hasAnyAuthority('Admin') || hasAnyAuthority('Customer')")
     @PostMapping("/placeOrder")
     public ResponseEntity<Long> placeOrder(
         @RequestBody OrderRequest orderRequest
