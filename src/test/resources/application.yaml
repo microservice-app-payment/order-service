@@ -1,30 +1,7 @@
 spring:
+  application:
+    name: order-service
+  profiles:
+    active: test
   config:
-    import: optional:configserver:http://localhost:9296
-  datasource:
-    url: jdbc:h2:mem:order
-    username: sa
-    password: password
-    driverClassName: org.h2.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://dev-23099275.okta.com/oauth2/default
-      client:
-        registration:
-          internal-client:
-            provider: okta
-            authorization-grant-type: client_credentials
-            scope: internal
-            client-id: 0oab2e71rnZHgiMP85d7
-            client-secret: Dk_QOlRLry75M56v_umogOtUkJE2FslNcHt3J32M4_3Nh9g1rrM_jINj6gPrFB5r
-        provider:
-          okta:
-            issuer-uri: https://dev-23099275.okta.com/oauth2/default
-
-eureka:
-  client:
-    enabled: false
+    import: optional:configserver:http://${CONFIG_URL:localhost}:9000
