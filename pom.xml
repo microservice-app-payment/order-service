@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.vn</groupId>
 	<artifactId>order-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>order-service</name>
 	<description>order-service</description>
 	<properties>
@@ -143,6 +143,22 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<!--JIB MAVEN PLUGIN-->
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<from>
+						<image>openjdk:11</image>
+					</from>
+					<to>
+						<image>registry.hub.docker.com/ngochung1809/${project.name}</image>
+						<tags>${project.version}</tags>
+					</to>
+				</configuration>
+			</plugin>
+			<!--JIB MAVEN PLUGIN-->
 		</plugins>
 		<finalName>${project.name}</finalName>
 	</build>
