@@ -23,7 +23,7 @@ public class TestServiceInstanceListSupplier implements ServiceInstanceListSuppl
                 "payment-service",
                 "payment-service",
                 "localhost",
-                8080,
+                8888,
                 false
         ));
 
@@ -31,7 +31,7 @@ public class TestServiceInstanceListSupplier implements ServiceInstanceListSuppl
                 "product-service",
                 "product-service",
                 "localhost",
-                8080,
+                8888,
                 false
         ));
 
