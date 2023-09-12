@@ -4,4 +4,4 @@ spring:
   profiles:
     active: dev
   config:
-    import: optional:configserver:http://${CONFIG_URL:localhost}:9000
+    import: optional:configserver:${CONFIG_URL:http://localhost:9000}
