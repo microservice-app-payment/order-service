@@ -15,25 +15,25 @@ curl -X GET "http://localhost:8080/order/5" \
 ```
 - Get all Product
 ```shell
-curl -X GET "http://localhost:9090/product" \
+curl -X GET "http://localhost:8080/product" \
 -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 - Get by ProductID
 ```shell
-curl -X GET "http://localhost:9090/product/1" \
+curl -X GET "http://localhost:8080/product/1" \
 -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 - Add product
 ```shell
-curl -X POST  "http://localhost:9090/product" \
+curl -X POST  "http://localhost:8080/product" \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer YOUR_TOKEN" \
--d '{"productName": "Ngoc Hung", "price": 100, "quantity": 50}'
+-d '{"productName": "iphone", "price": 100, "quantity": 50}'
 ```
 - Reduce Quantity
 ```shell
-curl -X PUT "http://localhost:9090/product/reduceQuantity/1?quantity=50"\
+curl -X PUT "http://localhost:8080/product/reduceQuantity/1?quantity=50"\
 -H "Authorization: Bearer YOUR_TOKEN" 
 ```
